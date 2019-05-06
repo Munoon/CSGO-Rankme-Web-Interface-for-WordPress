@@ -13,30 +13,7 @@
     */
 
     register_activation_hook(__FILE__, 'rankme_createScoreboardTable');
-
-    $rankme_mysql = [
-        "host" => "", 
-        "login" => "",
-        "password" => "",
-        "database" => ""
-    ];
-    $rankme_settings = [
-        "start" => 0, 
-        "end" => 25,
-        "action" => "../rankme-search",
-        "scoreboard" => [
-            "place" => true,
-            "name" => true,
-            "steam" => true,
-            "score" => true,
-            "kills" => false,
-            "deaths" => false,
-            "headshots" => false,
-            "kd" => true,
-            "button" => true
-        ]
-    ];
-    $rankme = new Rankme($rankme_mysql, $rankme_settings);
+    createScoreboard();
 
     $search_rankme_settings = [
         "name" => true,

@@ -3,18 +3,19 @@
     require "elements.class.php";
 
     class Rankme {
-        private $mysql, $settings;
+        private $mysql, $settings, $shortcode;
 
         public function __construct($mysql, $settings) {
             $this -> mysql = $mysql;
             $this -> settings = $settings;
-            add_shortcode('rankme_score', array($this, 'rankme_scoreboard'));
+            $this -> shortcode = 'rankme_score_'.$settings['id'];
+            add_shortcode($this -> shortcode, array($this, 'rankme_scoreboard'));
         }
          
         public function rankme_scoreboard() {
             $mysql = new mysqli($this -> mysql['host'], $this -> mysql['login'], $this -> mysql['password'], $this -> mysql['database']);
             $query = $mysql -> query("SELECT * FROM `rankme` ORDER BY `rankme`.`score` DESC LIMIT ". $this -> settings['start'] .", ". $this -> settings['end'] .";");
-            $place = --$this -> settings['start'];
+            $place = $this -> settings['start'];
             $ellements = [];
             
             echo "<table><thead><tr>";
@@ -53,6 +54,10 @@
             }
 
             echo "</tbody></table>";
+        }
+
+        public function getShortcode() {
+            return $this -> shortcode;
         }
     } 
 

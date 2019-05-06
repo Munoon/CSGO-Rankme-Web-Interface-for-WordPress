@@ -116,4 +116,40 @@
         }
     }
 
+    function createScoreboard() {
+        include_once($_SERVER['DOCUMENT_ROOT'].'/wordpress/wp-config.php');
+        global $wpdb;
+        $result = $wpdb -> get_results("SELECT * FROM wp_rankme_scoreboard");
+
+        foreach ($result as $key => $value) {
+            $mysql = [
+                "host" => $value -> host, 
+                "login" => $value -> login,
+                "password" => $value -> password,
+                "database" => $value -> db
+            ];
+
+            $settings = [
+                "start" => 0, 
+                "end" => 25,
+                "id" => $value -> id,
+                "action" => $value -> action,
+                "scoreboard" => [
+                    "place" => $value -> place,
+                    "name" => $value -> name,
+                    "steam" => $value -> steam,
+                    "score" => $value -> score,
+                    "kills" => $value -> kills,
+                    "deaths" => $value -> deaths,
+                    "headshots" => $value -> headshots,
+                    "kd" => $value -> kd,
+                    "button" => $value -> button
+                ]
+            ];
+
+            $rankme = new Rankme($mysql, $settings);
+            // file_put_contents("1.txt", $rankme -> getShortcode());
+        }
+    }
+
 ?>
