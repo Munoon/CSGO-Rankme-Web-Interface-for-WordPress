@@ -1,6 +1,7 @@
 <?php
     require "rankme.class.php";
     require "search-rankme.class.php";
+    require "database.php";
 
     /*
     Plugin Name: CSGO Rankme
@@ -10,6 +11,8 @@
     Author: Munoon
     Author URI: https://github.com/Munoon
     */
+
+    register_activation_hook(__FILE__, 'rankme_createScoreboardTable');
 
     $rankme_mysql = [
         "host" => "", 
