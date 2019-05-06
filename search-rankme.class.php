@@ -133,13 +133,23 @@
             "assists" => ["assists", "Assists"],
             "shots" => ["shots", "Shots"],
             "hits" => ["hits", "Hits"],
-            "hostage_rescued" => ["hostage_rescued", "Hostage Rescued"],
+            "hostages_rescued" => ["hostages_rescued", "Hostage Rescued"],
             "damage" => ["damage", "Damage"],
             "mvp" => ["mvp", "MPV"],
+            "c4_planted" => ["c4_planted", "C4 Planted"],
+            "c4_exploded" => ["c4_exploded", "C4 Exploded"], 
+            "c4_defused" => ["c4_defused", "C4 Defused"],
+            "first_blood" => ["first_blood", "First Blood"],
+            "no_scope" => ["no_scope", "No Scope"],
+            "no_scope_dis" => ["no_scope_dis", "No Scope Dis"],
             "match" => [
                 "win" => ["match_win", "Win Matches"],
                 "draw" => ["match_draw", "Draw Matches"],
-                "loose" => ["match_loose", "Loose Matches"]
+                "lose" => ["match_lose", "Lose Matches"],
+                "rounds_tr" => ["rounds_tr", "Round TR"],
+                "rounds_ct" => ["rounds_ct", "Round CT"],
+                "ct_win" => ["ct_win", "CT Win"],
+                "tr_win" => ["tr_win", "TR Win"]
             ],
             "models" => [
                 "head" => ["head", "Head"],
@@ -153,7 +163,7 @@
             "guns" => [
                 "knife" => ["knife", "Knife"],
                 "glock" => ["glock", "Glock"],
-                "hkp200" => ["hkp200", "P200"],
+                "hkp200" => ["hkp2000", "P200"],
                 "usp_silencer" => ["usp_silencer", "USP-S"],
                 "p250" => ["p250", "P250"],
                 "deagle" => ["deagle", "Deagle"],
