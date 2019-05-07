@@ -6,10 +6,12 @@
     let lastElem = div.children[1];
     lastElem.hidden = false;
 
-    for (let i = 1; i < div.children.length; i++) {
-        let button = document.createElement('button');
-        button.textContent = div.children[i].id;
-        panel.append(button);
+    if (div.children.length > 2) {
+        for (let i = 1; i < div.children.length; i++) {
+            let button = document.createElement('button');
+            button.textContent = div.children[i].id;
+            panel.append(button);
+        }
     }
 
     panel.addEventListener('click', function(e) {
@@ -20,5 +22,5 @@
         let currentElement = document.getElementById(e.target.textContent);
         currentElement.hidden = false;
         lastElem = currentElement;
-    })
+    });
 })();

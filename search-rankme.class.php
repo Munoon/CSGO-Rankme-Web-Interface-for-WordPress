@@ -102,6 +102,8 @@
 
                             echo "</tbody></table>";
                         }
+                    } else {
+                        echo "<h1>Error. Player not found!</h1>";
                     }
 
                     echo "</div>";
