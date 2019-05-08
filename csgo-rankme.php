@@ -2,7 +2,7 @@
 
     require "rankme.class.php";
     require "search-rankme.class.php";
-    require "database.php";
+    require "admin.php";
 
     /*
     Plugin Name: CSGO Rankme
@@ -14,8 +14,8 @@
     */
 
     register_activation_hook(__FILE__, 'rankme_createScoreboardTable');
+    add_action('admin_menu', 'rankme_add_pages');
     createScoreboard();
     createProfilePage();
-
 
 ?>

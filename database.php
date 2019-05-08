@@ -153,6 +153,52 @@
         }
     }
 
+    function getServers() {
+        global $wpdb;
+        $result = $wpdb -> get_results("SELECT id, host, db FROM ". $wpdb -> prefix ."rankme_scoreboard");
+        $arr = [];
+
+        foreach ($result as $key => $value) {
+            $scoreboard = [
+                "id" => $value -> id,
+                "host" => $value -> host,
+                "database" => $value -> db
+            ];
+            array_push($arr, $scoreboard);
+        }
+        
+        return $arr;
+    }
+
+    function deleteDatabaseFromScoreboard($id) {
+        global $wpdb;
+        $result = $wpdb -> get_results("DELETE FROM ". $wpdb -> prefix ."rankme_scoreboard WHERE id = $id");
+    }
+    
+    function addNewScoreboard($mysql, $settings) {
+        global $wpdb;
+        $mysql = "
+        INSERT INTO ". $wpdb -> prefix ."rankme_scoreboard VALUES (
+            NULL, 
+            '$mysql[host]', 
+            '$mysql[login]', 
+            '$mysql[password]', 
+            '$mysql[database]', 
+            '$settings[action]', 
+            '". $settings['scoreboard']['place'] ."', 
+            '". $settings['scoreboard']['name'] ."', 
+            '". $settings['scoreboard']['steam'] ."', 
+            '". $settings['scoreboard']['score'] ."', 
+            '". $settings['scoreboard']['kills'] ."', 
+            '". $settings['scoreboard']['deaths'] ."', 
+            '". $settings['scoreboard']['headshots'] ."', 
+            '". $settings['scoreboard']['kd'] ."',  
+            '". $settings['scoreboard']['button'] ."'
+            )";
+        echo $mysql;
+        $result = $wpdb -> get_results($mysql);
+    }
+
     function createProfilePage() {
         global $wpdb;
         $result = $wpdb -> get_results("SELECT * FROM ". $wpdb -> prefix ."rankme_profile");
