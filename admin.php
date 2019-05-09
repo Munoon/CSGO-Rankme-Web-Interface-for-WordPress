@@ -10,8 +10,7 @@
     function rankme_toplevel_page() {
         echo "<h1>Rankme Settings</h1>";
         if (isset($_GET['scoreboard'])) {
-            echo $_GET['scoreboard'];
-            //TODO add scoreboard edit page
+            editScoreboardPage($_GET['scoreboard']);
         } else if (isset($_POST['search'])) {
             deleteDatabaseFromScoreboard($_POST['search']);
             echo "<h3>Confirm! You have deleted the database with id ". $_POST['search'] ." from the table</h3>";
@@ -22,7 +21,7 @@
     }
 
     function mainPage() {
-        $servers = getServers();
+        $servers = getServer(null);
         $table = "";
 
         foreach ($servers as $key => $value) {
@@ -130,6 +129,59 @@
                         Button <input type="checkbox" name="button"><br>
                     </div>
                     <input type="submit" value="Create" name="create">
+                </form>
+            </div>
+
+        <?php
+    }
+
+    function editScoreboardPage($scoreboardID) {
+        wp_enqueue_script('rankme_set_checked', plugins_url('/js/setChecked.js', __FILE__));
+        if (isset($_POST['update'])) {
+            $update = [
+                "id" => $scoreboardID,
+                "host" => $_POST['host'],
+                "login" => $_POST['login'],
+                "password" => $_POST['password'],
+                "database" => $_POST['database'],
+                "action" => $_POST['action'],
+                "place" => $_POST['place'] == 'on' ? true : false,
+                "name" => $_POST['name'] == 'on' ? true : false,
+                "steam" => $_POST['steam'] == 'on' ? true : false,
+                "score" => $_POST['score'] == 'on' ? true : false,
+                "kills" => $_POST['kills'] == 'on' ? true : false,
+                "deaths" => $_POST['deaths'] == 'on' ? true : false,
+                "headshots" => $_POST['headshots'] == 'on' ? true : false,
+                "kd" => $_POST['kd'] == 'on' ? true : false,
+                "button" => $_POST['button'] == 'on' ? true : false
+            ];
+            updateScoreboard($update);
+        }
+        $scoreboard = getServer($scoreboardID);
+        ?>
+
+            <div>
+                <h3>Edit Scoreboard</h3>
+
+                <form method="post">
+                    Host: <input type="text" name="host" value="<?=$scoreboard[0]['host']?>"><br>
+                    Login: <input type="text" name="login" value="<?=$scoreboard[0]['login']?>"><br>
+                    Password: <input type="password" name="password" value="<?=$scoreboard[0]['password']?>"><br>
+                    Database: <input type="text" name="database" value="<?=$scoreboard[0]['database']?>"><br>
+                    Action: <input type="text" name="action" value="<?=$scoreboard[0]['action']?>"><br>
+                    
+                    <div id="rankme_checkbox">
+                        Place <input type="checkbox" name="place" data-checked="<?=$scoreboard[0]['place']?>"><br>
+                        Name <input type="checkbox" name="name" data-checked="<?=$scoreboard[0]['name']?>"><br>
+                        Steam <input type="checkbox" name="steam" data-checked="<?=$scoreboard[0]['steam']?>"><br>
+                        Score <input type="checkbox" name="score" data-checked="<?=$scoreboard[0]['score']?>"><br>
+                        Kills <input type="checkbox" name="kills" data-checked="<?=$scoreboard[0]['kills']?>"><br>
+                        Deaths <input type="checkbox" name="deaths" data-checked="<?=$scoreboard[0]['deaths']?>"><br>
+                        Headshots <input type="checkbox" name="headshots" data-checked="<?=$scoreboard[0]['headshots']?>"><br>
+                        K/D <input type="checkbox" name="kd" data-checked="<?=$scoreboard[0]['kd']?>"><br>
+                        Button <input type="checkbox" name="button" data-checked="<?=$scoreboard[0]['button']?>"><br>
+                    </div>
+                    <input type="submit" name="update" value="Update">
                 </form>
             </div>
 

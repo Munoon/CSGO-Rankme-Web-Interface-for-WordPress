@@ -153,16 +153,32 @@
         }
     }
 
-    function getServers() {
+    function getServer($id) {
         global $wpdb;
-        $result = $wpdb -> get_results("SELECT id, host, db FROM ". $wpdb -> prefix ."rankme_scoreboard");
+        $result = null;
+        if ($id == null)
+            $result = $wpdb -> get_results("SELECT * FROM ". $wpdb -> prefix ."rankme_scoreboard");
+        else
+            $result = $wpdb -> get_results("SELECT * FROM ". $wpdb -> prefix ."rankme_scoreboard WHERE id=$id");
         $arr = [];
 
         foreach ($result as $key => $value) {
             $scoreboard = [
                 "id" => $value -> id,
                 "host" => $value -> host,
-                "database" => $value -> db
+                "login" => $value -> login,
+                "password" => $value -> password,
+                "database" => $value -> db,
+                "action" => $value -> action,
+                "place" => $value -> place,
+                "name" => $value -> name,
+                "steam" => $value -> steam,
+                "score" => $value -> score,
+                "kills" => $value -> kills,
+                "deaths" => $value -> deaaths,
+                "headshots" => $value -> headshots,
+                "kd" => $value -> kd,
+                "button" => $value -> button
             ];
             array_push($arr, $scoreboard);
         }
@@ -295,6 +311,27 @@
             array_push($mysql, $localMysql);
         }
         $search = new RankmeSearch($mysql);
+    }
+
+    function updateScoreboard($settings) {
+        global $wpdb;
+        $sql = "UPDATE ". $wpdb -> prefix ."rankme_scoreboard 
+        SET host='$settings[host]',
+        login='$settings[login]',
+        password='$settings[password]',
+        db='$settings[database]',
+        action='$settings[action]',
+        place='$settings[place]',
+        name='$settings[name]',
+        steam='$settings[steam]',
+        score='$settings[score]',
+        kills='$settings[kills]',
+        deaaths='$settings[deaths]',
+        headshots='$settings[headshots]',
+        kd='$settings[kd]',
+        button='$settings[button]'
+        WHERE id=". $settings['id'];
+        $wpdb -> query($sql);
     }
 
 ?>
