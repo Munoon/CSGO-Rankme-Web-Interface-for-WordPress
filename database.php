@@ -186,11 +186,111 @@
         return $arr;
     }
 
+    function getProfiles($id) {
+        global $wpdb;
+        $result = null;
+        if ($id == null)
+            $result = $wpdb -> get_results("SELECT * FROM ". $wpdb -> prefix ."rankme_profile");
+        else
+            $result = $wpdb -> get_results("SELECT * FROM ". $wpdb -> prefix ."rankme_profile WHERE id=$id");
+        $arr = [];
+
+        foreach ($result as $key => $value) {
+            $scoreboard = [
+                "id" => $value -> id,
+                "host" => $value -> host,
+                "login" => $value -> login,
+                "password" => $value -> password,
+                "database" => $value -> db,
+                "name" => $value -> name,
+                "showName" => $value -> showName,
+                "steam" => $value -> steam,
+                "score" => $value -> score,
+                "kills" => $value -> kills,
+                "deaths" => $value -> deaths,
+                "headshots" => $value -> headshots,
+                "kd" => $value -> kd,
+                "assists" => $value -> assists,
+                "shots" => $value -> shots,
+                "hits" => $value -> hits,
+                "hostage_rescued" => $value -> hostage_rescued,
+                "damage" => $value -> damage,
+                "mvp" => $value -> mvp,
+                "c4_planted" => $value -> c4_planted,
+                "c4_exploded" => $value -> c4_exploded, 
+                "c4_defused" => $value -> c4_defused,
+                "first_blood" => $value -> first_blood,
+                "no_scope" => $value -> no_scope,
+                "no_scope_dis" => $value -> no_scope_dis,
+                "match_isShow" => $value -> match_isShow,
+                "win" => $value -> win,
+                "draw" => $value -> draw,
+                "lose" => $value -> loose,
+                "rounds_tr" => $value -> rounds_tr,
+                "rounds_ct" => $value -> rounds_ct,
+                "ct_win" => $value -> ct_win,
+                "tr_win" => $value -> tr_win,
+                "models_isShow" => $value -> models_isShow,
+                "head" => $value -> head,
+                "chest" => $value -> chest,
+                "stomach" => $value -> stomach,
+                "left_arm" => $value -> left_arm,
+                "right_arm" => $value -> right_arm,
+                "left_leg" => $value -> left_leg,
+                "right_leg" => $value -> right_leg,
+                "guns_isShow" => $value -> guns_isShow,
+                "ak47" => $value -> ak47,
+                "m4a1" => $value -> m4a1,
+                "m4a1_silencer" => $value -> m4a1_silencer,
+                "knife" => $value -> knife,
+                "glock" => $value -> glock,
+                "hkp200" => $value -> hkp200,
+                "usp_silencer" => $value -> usp_silencer,
+                "p250" => $value -> p250,
+                "deagle" => $value -> deagle,
+                "elite" => $value -> elite,
+                "fiveseven" => $value -> fiveseven,
+                "tec9" => $value -> tec9,
+                "cz75a" => $value -> cz75a,
+                "revolver" => $value -> revolver,
+                "nova" => $value -> nova,
+                "xm1014" => $value -> xm1014,
+                "mag7" => $value -> mag7,
+                "sawedoff" => $value -> sawedoff,
+                "bizon" => $value -> bizon,
+                "mac10" => $value -> mac10,
+                "mp9" => $value -> mp9,
+                "mp7" => $value -> mp7,
+                "ump45" => $value -> ump45,
+                "p90" => $value -> p90,
+                "galilar" => $value -> galilar,
+                "scar20" => $value -> scar20,
+                "famas" => $value -> famas,
+                "aug" => $value -> aug,
+                "ssg08" => $value -> ssg08,
+                "sg556" => $value -> sg556,
+                "awp" => $value -> awp,
+                "g3sg1" => $value -> g3sg1,
+                "m249" => $value -> m249,
+                "negev" => $value -> negev,
+                "mp5sd" => $value -> mp5sd
+            ];
+            array_push($arr, $scoreboard);
+        }
+        
+        return $arr;
+    }
+
     function deleteDatabaseFromScoreboard($id) {
         global $wpdb;
         $result = $wpdb -> get_results("DELETE FROM ". $wpdb -> prefix ."rankme_scoreboard WHERE id = $id");
     }
     
+    function deleteDatabaseFromProfiles($id) {
+        global $wpdb;
+        $result = $wpdb -> get_results("DELETE FROM ". $wpdb -> prefix ."rankme_profile WHERE id = $id");
+    }
+
     function addNewScoreboard($mysql, $settings) {
         global $wpdb;
         $mysql = "
@@ -211,8 +311,19 @@
             '". $settings['scoreboard']['kd'] ."',  
             '". $settings['scoreboard']['button'] ."'
             )";
-        echo $mysql;
-        $result = $wpdb -> get_results($mysql);
+        $wpdb -> query($mysql);
+    }
+
+    function addNewProfile($settings) {
+        global $wpdb;
+        $mysql = "
+        INSERT INTO ". $wpdb -> prefix ."rankme_profile VALUES (
+            NULL, ";
+        foreach ($settings as $key => $value) {
+            $mysql .= "'$value',";
+        }
+        $mysql = substr($mysql, 0, -1).")";
+        $wpdb -> query($mysql);
     }
 
     function createProfilePage() {
@@ -330,6 +441,79 @@
         headshots='$settings[headshots]',
         kd='$settings[kd]',
         button='$settings[button]'
+        WHERE id=". $settings['id'];
+        $wpdb -> query($sql);
+    }
+
+    function updateProfile($settings) {
+        global $wpdb;
+        $sql = "UPDATE ". $wpdb -> prefix ."rankme_profile 
+        SET host='$settings[host]',
+        login='$settings[login]',
+        password='$settings[password]',
+        db='$settings[database]',
+        name='$settings[name]',
+        showName='$settings[showName]',
+        steam='$settings[steam]',
+        score='$settings[score]',
+        kills='$settings[kills]',
+        deaths='$settings[deaths]',
+        headshots='$settings[headshotd]',
+        kd='$settings[kd]',
+        assists='$settings[assists]',
+        shots='$settings[shots]',
+        hits='$settings[hits]',
+        hostage_rescued='$settings[hostage_rescued]',
+        damage='$settings[damage]',
+        mvp='$settings[mvp]',
+        match_isShow='$settings[match_isShow]',
+        win='$settings[win]',
+        draw='$settings[draw]',
+        loose='$settings[lose]',
+        models_isShow='$settings[model_isShow]',
+        head='$settings[head]',
+        chest='$settings[chest]',
+        stomach='$settings[stomach]',
+        left_arm='$settings[left_arm]',
+        right_arm='$settings[right_arm]',
+        left_leg='$settings[left_leg]',
+        right_leg='$settings[right_leg]',
+        guns_isShow='$settings[guns_isShow]',
+        ak47='$settings[ak47]',
+        m4a1='$settings[m4a1]',
+        m4a1_silencer='$settings[m4a1_silencer]',
+        knife='$settings[knife]',
+        glock='$settings[glock]',
+        hkp200='$settings[hkp200]',
+        usp_silencer='$settings[usp_silencer]',
+        p250='$settings[p250]',
+        deagle='$settings[deagle]',
+        elite='$settings[elite]',
+        fiveseven='$settings[fiveseven]',
+        tec9='$settings[tec9]',
+        cz75a='$settings[cz75a]',
+        revolver='$settings[revolver]',
+        nova='$settings[nova]',
+        xm1014='$settings[xm1014]',
+        mag7='$settings[mag7]',
+        sawedoff='$settings[sawedoff]',
+        bizon='$settings[bizon]',
+        mac10='$settings[mac10]',
+        mp9='$settings[mp9]',
+        mp7='$settings[mp7]',
+        ump45='$settings[ump45]',
+        p90='$settings[p90]',
+        galilar='$settings[galilar]',
+        scar20='$settings[scar20]',
+        famas='$settings[famas]',
+        aug='$settings[aug]',
+        ssg08='$settings[ssg08]',
+        sg556='$settings[sg556]',
+        awp='$settings[awp]',
+        g3sg1='$settings[g3sg1]',
+        m249='$settings[m249]',
+        negev='$settings[negev]',
+        mp5sd='$settings[mp5sd]'
         WHERE id=". $settings['id'];
         $wpdb -> query($sql);
     }

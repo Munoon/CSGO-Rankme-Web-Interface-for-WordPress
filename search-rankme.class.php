@@ -11,6 +11,7 @@
         public function rankme_search() {
             if (isset($_GET['steam'])) {
                 wp_enqueue_script('rankme_switch_panel', plugins_url('/js/switchpanel.js', __FILE__));
+                $id = 0;
                 ?>
 
                     <div id="rankme_search">
@@ -18,7 +19,7 @@
                 
                 <?php 
                 foreach ($this -> mysql as $key => $value) {
-                    echo '<div id="'. $value['name'] .'" hidden>';
+                    echo '<div data-name="'. $value['name'] .'" id="rankme-'. ++$id .'" hidden>';
 
                     $mysql = new mysqli($value['host'], $value['login'], $value['password'], $value['database']);
                     $query = $mysql -> query("SELECT * FROM `rankme` WHERE steam = '$_GET[steam]';");

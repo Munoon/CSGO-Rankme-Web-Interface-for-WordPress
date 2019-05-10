@@ -9,7 +9,8 @@
     if (div.children.length > 2) {
         for (let i = 1; i < div.children.length; i++) {
             let button = document.createElement('button');
-            button.textContent = div.children[i].id;
+            button.textContent = div.children[i].dataset.name;
+            button.dataset.id = div.children[i].id;
             panel.append(button);
         }
     }
@@ -19,7 +20,7 @@
         if (e.target === lastElem) return;
 
         lastElem.hidden = true;
-        let currentElement = document.getElementById(e.target.textContent);
+        let currentElement = document.getElementById(e.target.dataset.id);
         currentElement.hidden = false;
         lastElem = currentElement;
     });

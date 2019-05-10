@@ -12,10 +12,15 @@
             add_shortcode($this -> shortcode, array($this, 'rankme_scoreboard'));
         }
          
-        public function rankme_scoreboard() {
+        public function rankme_scoreboard($start, $number) {
             $mysql = new mysqli($this -> mysql['host'], $this -> mysql['login'], $this -> mysql['password'], $this -> mysql['database']);
-            $query = $mysql -> query("SELECT * FROM `rankme` ORDER BY `rankme`.`score` DESC LIMIT ". $this -> settings['start'] .", ". $this -> settings['end'] .";");
-            $place = $this -> settings['start'];
+            $place = $start;
+            if ($start == null && $end == null) {
+                $place = 0;
+                $query = $mysql -> query("SELECT * FROM `rankme` ORDER BY `rankme`.`score` DESC LIMIT 0, 25;");
+            } else {
+                $query = $mysql -> query("SELECT * FROM `rankme` ORDER BY `rankme`.`score` DESC LIMIT $start, $number;");
+            }
             $ellements = [];
             
             echo "<table><thead><tr>";
