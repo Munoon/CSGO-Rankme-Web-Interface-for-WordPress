@@ -14,8 +14,18 @@
     */
 
     register_activation_hook(__FILE__, 'rankme_createScoreboardTable');
+
     add_action('admin_menu', 'rankme_add_pages');
+    add_action('wp_ajax_rankme', 'rankme_scoreboard_more');
+    add_action('wp_ajax_nopriv_rankme', 'rankme_scoreboard_more');
+
     createScoreboard();
     createProfilePage();
+
+    function rankme_scoreboard_more() {
+        $scoreboards = createScoreboard();
+        $scoreboards[$_GET['id']] -> getJson($_GET['start'], $_GET['count']);
+        wp_die();
+    }
 
 ?>

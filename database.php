@@ -121,6 +121,7 @@
     function createScoreboard() {
         global $wpdb;
         $result = $wpdb -> get_results("SELECT * FROM ". $wpdb -> prefix ."rankme_scoreboard");
+        $arr = [];
 
         foreach ($result as $key => $value) {
             $mysql = [
@@ -149,8 +150,13 @@
             ];
 
             $rankme = new Rankme($mysql, $settings);
+            $arr += [$settings['id'] => $rankme];
+            // $arr = $rankme;
+            // echo $rankme -> getShortcode();
             // file_put_contents("1.txt", $rankme -> getShortcode());
         }
+        
+        return $arr;
     }
 
     function getServer($id) {

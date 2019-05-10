@@ -18,6 +18,11 @@
             return "<td>". $row[$WORDS[$this -> name][1]] ."</td>";
         }
 
+        public function getJson($row) {
+            $WORDS = getWords();
+            return $row[$WORDS[$this -> name][1]];
+        }
+
         public function getName() {
             return $this -> name;
         }
