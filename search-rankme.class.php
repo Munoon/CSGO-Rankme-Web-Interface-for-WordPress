@@ -38,7 +38,7 @@
                                     <td>". $row[$words[$key][0]] ."</td>
                                 </tr>
                                 ";
-                            } else if ($key == "kd") {
+                            } else if ($key == "kd" && $value) {
                                 echo "
                                 <tr>
                                     <td>". $words[$key][1] ."</td>
