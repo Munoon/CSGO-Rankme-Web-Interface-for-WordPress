@@ -21,90 +21,96 @@
                 foreach ($this -> mysql as $key => $value) {
                     echo '<div data-name="'. $value['name'] .'" id="rankme-'. ++$id .'" hidden>';
 
-                    $mysql = new mysqli($value['host'], $value['login'], $value['password'], $value['database']);
-                    $query = $mysql -> query("SELECT * FROM `rankme` WHERE steam = '$_GET[steam]';");
+                    $mysql = new wpdb($value['login'], $value['password'], $value['database'], $value['host']);
+                    $query = $mysql -> get_results("SELECT * FROM `rankme` WHERE steam = '$_GET[steam]';");
                     $words = getSettingsWords();
                     $settings = $value['settings'];
                     
-                    if ($row = mysqli_fetch_assoc($query)) {
-                        // Show global statistics
-                        echo "<table>";
-                        foreach ($settings as $key => $value) {
-
-                            if ($value && $key != "match" && $key != "models" && $key != "guns" && $key != "kd") {
-                                echo "
-                                <tr>
-                                    <td>". $words[$key][1] ."</td>
-                                    <td>". $row[$words[$key][0]] ."</td>
-                                </tr>
-                                ";
-                            } else if ($key == "kd" && $value) {
-                                echo "
-                                <tr>
-                                    <td>". $words[$key][1] ."</td>
-                                    <td>". round($row['kills'] / $row['deaths'], 2) ."</td>
-                                </tr>
-                                ";
-                            }
-
-                        }
-                        echo "</table>";
-
-                        // Show match statistics
-                        if ($settings['match']['isShow']) {
-                            echo '<table><tbody>';
-                            
-                            foreach ($settings['match'] as $matchType => $value) {
-                                if ($matchType != 'isShow' && $value) {
-                                    echo "
-                                    <tr>
-                                        <td>". $words['match'][$matchType][1] ."</td>
-                                        <td>". $row[$words['match'][$matchType][0]] ."</td>
-                                    </tr>
-                                    ";
-                                }
-                            }
-
-                            echo "</tbody></table>";
-                        }
-
-                        // Show models statistics
-                        if ($settings['models']['isShow']) {
-                            echo '<table><tbody>';
-                            
-                            foreach ($settings['models'] as $modelType => $value) {
-                                if ($modelType != 'isShow' && $value) {
-                                    echo "
-                                    <tr>
-                                        <td>". $words['models'][$modelType][1] ."</td>
-                                        <td>". $row[$words['models'][$modelType][0]] ."</td>
-                                    </tr>
-                                    ";
-                                }
-                            }
-
-                            echo "</tbody></table>";
-                        }
-
-                        // Show guns statistics
-                        if ($settings['guns']['isShow']) {
-                            echo "<table><tbody>";
-
-                            foreach ($settings['guns'] as $gun => $value) {
-                                if ($gun != "isShow" && $value) {
-                                    echo "
-                                    <tr>
-                                        <td>". $words['guns'][$gun][1] ."</td>
-                                        <td>". $row[$words['guns'][$gun][0]] ."</td>
-                                    </tr>                                    
-                                    ";
-                                }
-                            }
-
-                            echo "</tbody></table>";
-                        }
-                    } else {
+                    if (count($query) == 0) {
                         echo "<h1>Error. Player not found!</h1>";
+                    } else {
+                        foreach ($query as $key => $row) {
+                            // Show global statistics
+                            echo "<table>";
+                            foreach ($settings as $key => $value) {
+    
+                                if ($value && $key != "match" && $key != "models" && $key != "guns" && $key != "kd") {
+                                    $word = $words[$key][0];
+                                    echo "
+                                    <tr>
+                                        <td>". $words[$key][1] ."</td>
+                                        <td>". $row -> $word ."</td>
+                                    </tr>
+                                    ";
+                                } else if ($key == "kd" && $value) {
+                                    echo "
+                                    <tr>
+                                        <td>". $words[$key][1] ."</td>
+                                        <td>". round($row -> kills / $row -> deaths, 2) ."</td>
+                                    </tr>
+                                    ";
+                                }
+    
+                            }
+                            echo "</table>";
+    
+                            // Show match statistics
+                            if ($settings['match']['isShow']) {
+                                echo '<table><tbody>';
+                                
+                                foreach ($settings['match'] as $matchType => $value) {
+                                    if ($matchType != 'isShow' && $value) {
+                                        $word = $words['match'][$matchType][0];
+                                        echo "
+                                        <tr>
+                                            <td>". $words['match'][$matchType][1] ."</td>
+                                            <td>". $row -> $word ."</td>
+                                        </tr>
+                                        ";
+                                    }
+                                }
+    
+                                echo "</tbody></table>";
+                            }
+    
+                            // Show models statistics
+                            if ($settings['models']['isShow']) {
+                                echo '<table><tbody>';
+                                
+                                foreach ($settings['models'] as $modelType => $value) {
+                                    if ($modelType != 'isShow' && $value) {
+                                        $word = $words['models'][$modelType][0];
+                                        echo "
+                                        <tr>
+                                            <td>". $words['models'][$modelType][1] ."</td>
+                                            <td>". $row -> $word ."</td>
+                                        </tr>
+                                        ";
+                                    }
+                                }
+    
+                                echo "</tbody></table>";
+                            }
+    
+                            // Show guns statistics
+                            if ($settings['guns']['isShow']) {
+                                echo "<table><tbody>";
+    
+                                foreach ($settings['guns'] as $gun => $value) {
+                                    if ($gun != "isShow" && $value) {
+                                        $word = $words['guns'][$gun][0];
+                                        echo "
+                                        <tr>
+                                            <td>". $words['guns'][$gun][1] ."</td>
+                                            <td>". $row -> $word ."</td>
+                                        </tr>                                    
+                                        ";
+                                    }
+                                }
+    
+                                echo "</tbody></table>";
+                            }
+                        } 
                     }
 
                     echo "</div>";

@@ -15,12 +15,14 @@
 
         public function getTableDash($row) {
             $WORDS = getWords();
-            return "<td>". $row[$WORDS[$this -> name][1]] ."</td>";
+            $word = $WORDS[$this -> name][1];
+            return "<td>". $row -> $word ."</td>";
         }
 
         public function getJson($row) {
             $WORDS = getWords();
-            return $row[$WORDS[$this -> name][1]];
+            $word = $WORDS[$this -> name][1];
+            return $row -> $word;
         }
 
         public function getName() {

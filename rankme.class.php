@@ -10,12 +10,12 @@
             $this -> mysql = $mysql;
             $this -> settings = $settings;
             $this -> shortcode = 'rankme_score_'.$settings['id'];
+            $this -> mysql = new wpdb($this -> mysql['login'], $this -> mysql['password'], $this -> mysql['database'], $this -> mysql['host']);
             add_shortcode($this -> shortcode, array($this, 'rankme_scoreboard'));
         }
          
         public function rankme_scoreboard() {
-            $mysql = new mysqli($this -> mysql['host'], $this -> mysql['login'], $this -> mysql['password'], $this -> mysql['database']);
-            $query = $mysql -> query("SELECT * FROM `rankme` ORDER BY `rankme`.`score` DESC LIMIT 0, 25;");
+            $query = $this -> mysql -> get_results("SELECT * FROM `rankme` ORDER BY `rankme`.`score` DESC LIMIT 0, 25;");
             $place = 0;
             $ellements = [];
             
@@ -36,20 +36,20 @@
             }
             echo '</tr></thead><tbody>';
 
-            while ($row = mysqli_fetch_assoc($query)) {
+            foreach ($query as $key => $row) {
                 echo "<tr>";
                 foreach ($ellements as $key => $value) {
                     $ellementName = $value -> getName();
                     if ($ellementName == "place") {
                         echo "<td>".++$place."</td>";
                     } else if ($ellementName == "kd") {
-                        echo "<td>".round($row['kills'] / $row['deaths'], 2)."</td>";
+                        echo "<td>".round($row -> kills / $row -> deaths, 2)."</td>";
                     } else if ($ellementName == "button") {
                         // add scoreboard id
                         echo '
                         <td>
-                            <form methods="get" action="'. $this -> settings['action'] .'">
-                                <input type="text" name="steam" value="'. $row['steam'] .'" hidden>
+                            <form methods="get" action="'. $this -> settings -> action .'">
+                                <input type="text" name="steam" value="'. $row -> steam .'" hidden>
                                 <input type="submit" value="Profile">
                             </form>
                         </td>';
@@ -81,8 +81,7 @@
         }
 
         public function getJson($start, $count) {
-            $mysql = new wpdb($this -> mysql['login'], $this -> mysql['password'], $this -> mysql['database'], $this -> mysql['host']);
-            $result = $mysql -> get_results("SELECT * FROM `rankme` ORDER BY `rankme`.`score` DESC LIMIT $start, $count;");
+            $result = $this -> mysql -> get_results("SELECT * FROM `rankme` ORDER BY `rankme`.`score` DESC LIMIT $start, $count;");
             $place = $start;
             $resultArr = [];
 
