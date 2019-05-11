@@ -25,7 +25,7 @@
                 'id' => $this -> settings['id']
             ));
             
-            echo "<table><thead><tr>";
+            echo '<table id="rankme_table"><thead><tr>';
 
             foreach ($this -> settings['scoreboard'] as $key => $value) {
                 if ($value) {
@@ -34,7 +34,7 @@
                     array_push($ellements, $ellement);
                 }
             }
-            echo "</tr></thead><tbody>";
+            echo '</tr></thead><tbody>';
 
             while ($row = mysqli_fetch_assoc($query)) {
                 echo "<tr>";
