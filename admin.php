@@ -193,12 +193,12 @@
         wp_enqueue_script('rankme_show_password', plugins_url('/js/showPassword.js', __FILE__));
         if (isset($_POST['addProfile'])) {
             $settings = [
-                sanitize_text_field($_POST['host']),
-                sanitize_text_field($_POST['login']),
-                sanitize_text_field($_POST['password']),
-                sanitize_text_field($_POST['database']),
-                sanitize_text_field($_POST['name']),
-                sanitize_text_field($_POST['shoName']) == 'on',
+                "host" => sanitize_text_field($_POST['host']),
+                "login" => sanitize_text_field($_POST['login']),
+                "password" => sanitize_text_field($_POST['password']),
+                "database" => sanitize_text_field($_POST['database']),
+                "name" => sanitize_text_field($_POST['name']),
+                sanitize_text_field($_POST['showName']) == 'on',
                 sanitize_text_field($_POST['steam']) == 'on',
                 sanitize_text_field($_POST['score']) == 'on',
                 sanitize_text_field($_POST['kills']) == 'on',
@@ -260,8 +260,17 @@
                 sanitize_text_field($_POST['negev']) == 'on',
                 sanitize_text_field($_POST['mp5sd']) == 'on'
             ];
-            addNewProfile($settings);
-            echo "<h3>Confirm! You created new profile!</h3>";
+
+            if (sanitize_text_field($_POST['name']) == '') {
+                echo "<h2>Error! You need to type name.</h2>";
+            } else if (!checkProfileNameAvalible(sanitize_text_field($_POST['name']))) {
+                echo "<h2>Error! That name already exist.</h2>";
+            } else if ($message = checkInfoForNull(array_slice($settings, 0, 4))) {
+                echo "<h2>$message</h2>";
+            } else {
+                addNewProfile($settings);
+                echo "<h3>Confirm! You created new profile!</h3>";
+            }
         }
 
         ?>
@@ -417,6 +426,7 @@
     function editProfilePage($profileID) {
         wp_enqueue_script('rankme_set_checked', plugins_url('/js/setChecked.js', __FILE__));
         wp_enqueue_script('rankme_show_password', plugins_url('/js/showPassword.js', __FILE__));
+        $profiles = getProfiles($profileID)[0];
         if (isset($_POST['updateProfile'])) {
             $settings = [
                 "id" => sanitize_text_field($profileID),
@@ -487,10 +497,17 @@
                 "negev" => $_POST['negev'] == 'on' ? '1' : '0',
                 "mp5sd" => $_POST['mp5sd'] == 'on' ? '1' : '0'
             ];
-            updateProfile($settings);
-            echo "<h3>Confirm! You updated profile!</h3>";
+            if (sanitize_text_field($_POST['name']) == '') {
+                echo "<h2>Error! You need to type name.</h2>";
+            } else if ($profiles['name'] != $_POST['name'] && !checkProfileNameAvalible(sanitize_text_field($_POST['name']))) {
+                echo "<h2>Error! That name already exist.</h2>";
+            } else if ($message = checkInfoForNull(array_slice($settings, 0, 4))) {
+                echo "<h2>$message</h2>";
+            } else {
+                updateProfile($settings);
+                echo "<h3>Confirm! You updated profile!</h3>";
+            }
         }
-        $profiles = getProfiles($profileID)[0];
         ?>
 
             <div>
@@ -584,6 +601,15 @@
             </div>
 
         <?php
+    }
+
+    function checkInfoForNull($info) {
+        foreach ($info as $key => $value) {
+            if ($value == "") {
+                $key = sanitize_text_field($key);
+                return "Error! You need to type value in $key field!";
+            }
+        }
     }
 
 ?>

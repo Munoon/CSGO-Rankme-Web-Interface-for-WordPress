@@ -524,4 +524,10 @@
         $wpdb -> query($sql);
     }
 
+    function checkProfileNameAvalible($name) {
+        global $wpdb;
+        $wpdb -> get_results("SELECT * FROM ". $wpdb -> prefix ."rankme_profile WHERE name='$name';");
+        return $wpdb -> num_rows == 0;
+    }
+
 ?>
