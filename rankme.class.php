@@ -48,8 +48,8 @@
                         // add scoreboard id
                         echo '
                         <td>
-                            <form methods="get" action="'. $this -> settings -> action .'">
-                                <input type="text" name="steam" value="'. $row -> steam .'" hidden>
+                            <form methods="get" action="'. $this -> settings["action"] .'">
+                                <input type="text" name="steam" value="'. sanitize_text_field($row -> steam) .'" hidden>
                                 <input type="submit" value="Profile">
                             </form>
                         </td>';

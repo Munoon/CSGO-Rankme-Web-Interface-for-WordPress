@@ -25,6 +25,10 @@
                     $query = $mysql -> get_results("SELECT * FROM `rankme` WHERE steam = '$_GET[steam]';");
                     $words = getSettingsWords();
                     $settings = $value['settings'];
+
+                    // echo "<pre>";
+                    // print_r($query);
+                    // echo "</pre>";
                     
                     if (count($query) == 0) {
                         echo "<h1>Error. Player not found!</h1>";
@@ -33,7 +37,6 @@
                             // Show global statistics
                             echo "<table>";
                             foreach ($settings as $key => $value) {
-    
                                 if ($value && $key != "match" && $key != "models" && $key != "guns" && $key != "kd") {
                                     $word = $words[$key][0];
                                     echo "

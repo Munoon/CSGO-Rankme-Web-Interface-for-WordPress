@@ -16,7 +16,7 @@
         public function getTableDash($row) {
             $WORDS = getWords();
             $word = $WORDS[$this -> name][1];
-            return "<td>". $row -> $word ."</td>";
+            return "<td>". sanitize_text_field($row -> $word) ."</td>";
         }
 
         public function getJson($row) {

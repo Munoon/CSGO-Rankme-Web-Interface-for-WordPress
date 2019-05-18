@@ -11,16 +11,18 @@
     function rankme_toplevel_page() {
         echo "<h1>Rankme Settings</h1>";
         if (isset($_GET['scoreboard'])) {
-            editScoreboardPage($_GET['scoreboard']);
+            editScoreboardPage(sanitize_text_field($_GET['scoreboard']));
         } else if (isset($_GET['profile'])) {
-            editProfilePage($_GET['profile']);
+            editProfilePage(sanitize_text_field($_GET['profile']));
         } else if (isset($_POST['searchDelete'])) {
-            deleteDatabaseFromScoreboard($_POST['searchDelete']);
-            echo "<h3>Confirm! You have deleted the database with id ". $_POST['searchDelete'] ." from the scoreboards</h3>";
+            $message = sanitize_text_field($_POST['searchDelete']);
+            deleteDatabaseFromScoreboard($message);
+            echo "<h3>Confirm! You have deleted the database with id $message from the scoreboards</h3>";
             mainPage();
         } else if (isset($_POST['profileDelete'])) {
-            deleteDatabaseFromProfiles($_POST['profileDelete']);
-            echo "<h3>Confirm! You have deleted the database with id ". $_POST['profileDelete'] ." from the profiles</h3>";
+            $message = sanitize_text_field($_POST['profileDelete']);
+            deleteDatabaseFromProfiles($message);
+            echo "<h3>Confirm! You have deleted the database with id $message from the profiles</h3>";
             mainPage();
         } else {
             mainPage();
@@ -34,18 +36,18 @@
         $profileTable = "";
 
         foreach ($servers as $key => $value) {
-            $link =  $_SERVER['REQUEST_URI']. "&scoreboard=" .$value['id'];
+            $link =  sanitize_text_field($_SERVER['REQUEST_URI']). "&scoreboard=" .sanitize_text_field($value['id']);
 
             $scoreboardTable .= '<tr>
             <td>'. $value['host'] .'</td>
             <td>'. $value['database'] .'</td>
-            <td>[rankme_score_'. $value['id'] .']</td>
+            <td>[rankme_score_'. sanitize_html_class($value['id'] ).']</td>
             <td>
                 <a href="'. $link .'"><button>Edit</button></a>                
             </td>
             <td>
                 <form method="post">
-                    <input type="hidden" name="searchDelete" value="'. $value['id'] .'">
+                    <input type="hidden" name="searchDelete" value="'. sanitize_text_field($value['id']) .'">
                     <input type="submit" value="Delete">
                 </form>
             </td>
@@ -116,13 +118,13 @@
         wp_enqueue_script('rankme_show_password', plugins_url('/js/showPassword.js', __FILE__));
         if (isset($_POST['create'])) {
             $mysql = [
-                "host" => $_POST['host'],
-                "login" => $_POST['login'],
-                "password" => $_POST['password'],
-                "database" => $_POST['database']
+                "host" => sanitize_text_field($_POST['host']),
+                "login" => sanitize_text_field($_POST['login']),
+                "password" => sanitize_text_field($_POST['password']),
+                "database" => sanitize_text_field($_POST['database'])
             ];
             $settings = [
-                "action" => $_POST['action'],
+                "action" => sanitize_text_field($_POST['action']),
                 "scoreboard" => [
                     "place" => $_POST['place'] == 'on',
                     "name" => $_POST['name'] == 'on',
@@ -191,72 +193,72 @@
         wp_enqueue_script('rankme_show_password', plugins_url('/js/showPassword.js', __FILE__));
         if (isset($_POST['addProfile'])) {
             $settings = [
-                $_POST['host'],
-                $_POST['login'],
-                $_POST['password'],
-                $_POST['database'],
-                $_POST['name'],
-                $_POST['shoName'],
-                $_POST['steam'],
-                $_POST['score'],
-                $_POST['kills'],
-                $_POST['deaths'],
-                $_POST['headshots'],
-                $_POST['kd'],
-                $_POST['assists'],
-                $_POST['shots'],
-                $_POST['hits'],
-                $_POST['hostage_rescued'],
-                $_POST['damage'],
-                $_POST['mvp'],
-                $_POST['match_isShow'],
-                $_POST['win'],
-                $_POST['draw'],
-                $_POST['lose'],
-                $_POST['models_isShow'],
-                $_POST['head'],
-                $_POST['chest'],
-                $_POST['stomach'],
-                $_POST['left_arm'],
-                $_POST['right_arm'],
-                $_POST['left_leg'],
-                $_POST['riht_leg'],
-                $_POST['guns_isShow'],
-                $_POST['ak47'],
-                $_POST['m4a1'],
-                $_POST['m4a1_silencer'],
-                $_POST['knife'],
-                $_POST['glock'],
-                $_POST['hkp200'],
-                $_POST['usp_silencer'],
-                $_POST['p250'],
-                $_POST['deagle'],
-                $_POST['elite'],
-                $_POST['fiveseven'],
-                $_POST['tec9'],
-                $_POST['cz75a'],
-                $_POST['revolver'],
-                $_POST['nova'],
-                $_POST['xm1014'],
-                $_POST['mag7'],
-                $_POST['sawedoff'],
-                $_POST['bizon'],
-                $_POST['mac10'],
-                $_POST['mp9'],
-                $_POST['mp7'],
-                $_POST['ump45'],
-                $_POST['p90'],
-                $_POST['galilar'],
-                $_POST['scar20'],
-                $_POST['famas'],
-                $_POST['aug'],
-                $_POST['ssg08'],
-                $_POST['sg556'],
-                $_POST['awp'],
-                $_POST['g3sg1'],
-                $_POST['m249'],
-                $_POST['negev'],
-                $_POST['mp5sd']
+                sanitize_text_field($_POST['host']),
+                sanitize_text_field($_POST['login']),
+                sanitize_text_field($_POST['password']),
+                sanitize_text_field($_POST['database']),
+                sanitize_text_field($_POST['name']),
+                sanitize_text_field($_POST['shoName']) == 'on',
+                sanitize_text_field($_POST['steam']) == 'on',
+                sanitize_text_field($_POST['score']) == 'on',
+                sanitize_text_field($_POST['kills']) == 'on',
+                sanitize_text_field($_POST['deaths']) == 'on',
+                sanitize_text_field($_POST['headshots']) == 'on',
+                sanitize_text_field($_POST['kd']) == 'on',
+                sanitize_text_field($_POST['assists']) == 'on',
+                sanitize_text_field($_POST['shots']) == 'on',
+                sanitize_text_field($_POST['hits']) == 'on',
+                sanitize_text_field($_POST['hostage_rescued']) == 'on',
+                sanitize_text_field($_POST['damage']) == 'on',
+                sanitize_text_field($_POST['mvp']) == 'on',
+                sanitize_text_field($_POST['match_isShow']) == 'on',
+                sanitize_text_field($_POST['win']) == 'on',
+                sanitize_text_field($_POST['draw']) == 'on',
+                sanitize_text_field($_POST['lose']) == 'on',
+                sanitize_text_field($_POST['models_isShow']) == 'on',
+                sanitize_text_field($_POST['head']) == 'on',
+                sanitize_text_field($_POST['chest']) == 'on',
+                sanitize_text_field($_POST['stomach']) == 'on',
+                sanitize_text_field($_POST['left_arm']) == 'on',
+                sanitize_text_field($_POST['right_arm']) == 'on',
+                sanitize_text_field($_POST['left_leg']) == 'on',
+                sanitize_text_field($_POST['riht_leg']) == 'on',
+                sanitize_text_field($_POST['guns_isShow']) == 'on',
+                sanitize_text_field($_POST['ak47']) == 'on',
+                sanitize_text_field($_POST['m4a1']) == 'on',
+                sanitize_text_field($_POST['m4a1_silencer']) == 'on',
+                sanitize_text_field($_POST['knife']) == 'on',
+                sanitize_text_field($_POST['glock']) == 'on',
+                sanitize_text_field($_POST['hkp200']) == 'on',
+                sanitize_text_field($_POST['usp_silencer']) == 'on',
+                sanitize_text_field($_POST['p250']) == 'on',
+                sanitize_text_field($_POST['deagle']) == 'on',
+                sanitize_text_field($_POST['elite']) == 'on',
+                sanitize_text_field($_POST['fiveseven']) == 'on',
+                sanitize_text_field($_POST['tec9']) == 'on',
+                sanitize_text_field($_POST['cz75a']) == 'on',
+                sanitize_text_field($_POST['revolver']) == 'on',
+                sanitize_text_field($_POST['nova']) == 'on',
+                sanitize_text_field($_POST['xm1014']) == 'on',
+                sanitize_text_field($_POST['mag7']) == 'on',
+                sanitize_text_field($_POST['sawedoff']) == 'on',
+                sanitize_text_field($_POST['bizon']) == 'on',
+                sanitize_text_field($_POST['mac10']) == 'on',
+                sanitize_text_field($_POST['mp9']) == 'on',
+                sanitize_text_field($_POST['mp7']) == 'on',
+                sanitize_text_field($_POST['ump45']) == 'on',
+                sanitize_text_field($_POST['p90']) == 'on',
+                sanitize_text_field($_POST['galilar']) == 'on',
+                sanitize_text_field($_POST['scar20']) == 'on',
+                sanitize_text_field($_POST['famas']) == 'on',
+                sanitize_text_field($_POST['aug']) == 'on',
+                sanitize_text_field($_POST['ssg08']) == 'on',
+                sanitize_text_field($_POST['sg556']) == 'on',
+                sanitize_text_field($_POST['awp']) == 'on',
+                sanitize_text_field($_POST['g3sg1']) == 'on',
+                sanitize_text_field($_POST['m249']) == 'on',
+                sanitize_text_field($_POST['negev']) == 'on',
+                sanitize_text_field($_POST['mp5sd']) == 'on'
             ];
             addNewProfile($settings);
             echo "<h3>Confirm! You created new profile!</h3>";
@@ -362,12 +364,12 @@
         wp_enqueue_script('rankme_show_password', plugins_url('/js/showPassword.js', __FILE__));
         if (isset($_POST['update'])) {
             $update = [
-                "id" => $scoreboardID,
-                "host" => $_POST['host'],
-                "login" => $_POST['login'],
-                "password" => $_POST['password'],
-                "database" => $_POST['database'],
-                "action" => $_POST['action'],
+                "id" => sanitize_text_field($scoreboardID),
+                "host" => sanitize_text_field($_POST['host']),
+                "login" => sanitize_text_field($_POST['login']),
+                "password" => sanitize_text_field($_POST['password']),
+                "database" => sanitize_text_field($_POST['database']),
+                "action" => sanitize_text_field($_POST['action']),
                 "place" => $_POST['place'] == 'on' ? true : false,
                 "name" => $_POST['name'] == 'on' ? true : false,
                 "steam" => $_POST['steam'] == 'on' ? true : false,
@@ -417,12 +419,12 @@
         wp_enqueue_script('rankme_show_password', plugins_url('/js/showPassword.js', __FILE__));
         if (isset($_POST['updateProfile'])) {
             $settings = [
-                "id" => $profileID,
-                "host" => $_POST['host'],
-                "login" => $_POST['login'],
-                "password" => $_POST['password'],
-                "database" => $_POST['database'],
-                "name" => $_POST['name'],
+                "id" => sanitize_text_field($profileID),
+                "host" => sanitize_text_field($_POST['host']),
+                "login" => sanitize_text_field($_POST['login']),
+                "password" => sanitize_text_field($_POST['password']),
+                "database" => sanitize_text_field($_POST['database']),
+                "name" => sanitize_text_field($_POST['name']),
                 "showName" => $_POST['showName'] == 'on' ? '1' : '0',
                 "steam" => $_POST['steam'] == 'on' ? '1' : '0',
                 "score" => $_POST['score'] == 'on' ? '1' : '0',
