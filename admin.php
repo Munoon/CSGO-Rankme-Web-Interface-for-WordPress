@@ -11,27 +11,27 @@
     function rankme_toplevel_page() {
         echo "<h1>Rankme Settings</h1>";
         if (isset($_GET['scoreboard'])) {
-            editScoreboardPage(sanitize_text_field($_GET['scoreboard']));
+            rankme_editScoreboardPage(sanitize_text_field($_GET['scoreboard']));
         } else if (isset($_GET['profile'])) {
-            editProfilePage(sanitize_text_field($_GET['profile']));
+            rankme_editProfilePage(sanitize_text_field($_GET['profile']));
         } else if (isset($_POST['searchDelete'])) {
             $message = sanitize_text_field($_POST['searchDelete']);
-            deleteDatabaseFromScoreboard($message);
+            rankme_deleteDatabaseFromScoreboard($message);
             echo "<h3>Confirm! You have deleted the database with id $message from the scoreboards</h3>";
-            mainPage();
+            rankme_main_page();
         } else if (isset($_POST['profileDelete'])) {
             $message = sanitize_text_field($_POST['profileDelete']);
-            deleteDatabaseFromProfiles($message);
+            rankme_deleteDatabaseFromProfiles($message);
             echo "<h3>Confirm! You have deleted the database with id $message from the profiles</h3>";
-            mainPage();
+            rankme_main_page();
         } else {
-            mainPage();
+            rankme_main_page();
         }
     }
 
-    function mainPage() {
-        $servers = getServer(null);
-        $profiles = getProfiles(null);
+    function rankme_main_page() {
+        $servers = rankme_getServer(null);
+        $profiles = rankme_getProfiles(null);
         $scoreboardTable = "";
         $profileTable = "";
 
@@ -138,12 +138,12 @@
                 ]
             ];
 
-            if ($message = checkInfoForNull($mysql)) {
+            if ($message = rankme_checkInfoForNull($mysql)) {
                 echo "<h2>$message</h2>";
-            } else if (!checkConnection($mysql)) {
+            } else if (!rankme_checkConnection($mysql)) {
                 echo "<h2>Error! Can not connect to the database</h2>";
             } else {
-                addNewScoreboard($mysql, $settings);
+                rankme_addNewScoreboard($mysql, $settings);
                 echo "<h3>Confirm! You created new scoreboard!</h3>";
             }
         }
@@ -270,14 +270,14 @@
 
             if (sanitize_text_field($_POST['name']) == '') {
                 echo "<h2>Error! You need to type name.</h2>";
-            } else if (!checkProfileNameAvailable(sanitize_text_field($_POST['name']))) {
+            } else if (!rankme_checkProfileNameAvailable(sanitize_text_field($_POST['name']))) {
                 echo "<h2>Error! That name already exist.</h2>";
-            } else if ($message = checkInfoForNull(array_slice($settings, 0, 4))) {
+            } else if ($message = rankme_checkInfoForNull(array_slice($settings, 0, 4))) {
                 echo "<h2>$message</h2>";
-            } else if (!checkConnection(array_slice($settings, 0, 4))) {
+            } else if (!rankme_checkConnection(array_slice($settings, 0, 4))) {
                 echo "<h2>Error! Can not connect to the database</h2>";
             } else {
-                addNewProfile($settings);
+                rankme_addNewProfile($settings);
                 echo "<h3>Confirm! You created new profile!</h3>";
             }
         }
@@ -377,7 +377,7 @@
         <?php
     }
 
-    function editScoreboardPage($scoreboardID) {
+    function rankme_editScoreboardPage($scoreboardID) {
         wp_enqueue_script('rankme_set_checked', plugins_url('/js/setChecked.js', __FILE__));
         wp_enqueue_script('rankme_show_password', plugins_url('/js/showPassword.js', __FILE__));
         if (isset($_POST['update'])) {
@@ -399,16 +399,16 @@
                 "button" => $_POST['button'] == 'on' ? true : false
             ];
 
-            if ($message = checkInfoForNull(array_slice($update, 0, 5))) {
+            if ($message = rankme_checkInfoForNull(array_slice($update, 0, 5))) {
                 echo "<h2>$message</h2>";
-            } else if (!checkConnection(array_slice($update, 1, 4))) {
+            } else if (!rankme_checkConnection(array_slice($update, 1, 4))) {
                 echo "<h2>Error! Can not connect to the database</h2>";
             } else {
-                updateScoreboard($update);
+                rankme_updateScoreboard($update);
                 echo "<h3>Confirm! You updated scoreboard!</h3>";
             }
         }
-        $scoreboard = getServer($scoreboardID);
+        $scoreboard = rankme_getServer($scoreboardID);
         ?>
 
             <div>
@@ -440,10 +440,10 @@
         <?php
     }
     
-    function editProfilePage($profileID) {
+    function rankme_editProfilePage($profileID) {
         wp_enqueue_script('rankme_set_checked', plugins_url('/js/setChecked.js', __FILE__));
         wp_enqueue_script('rankme_show_password', plugins_url('/js/showPassword.js', __FILE__));
-        $profiles = getProfiles($profileID)[0];
+        $profiles = rankme_getProfiles($profileID)[0];
         if (isset($_POST['updateProfile'])) {
             $settings = [
                 "id" => sanitize_text_field($profileID),
@@ -516,14 +516,14 @@
             ];
             if (sanitize_text_field($_POST['name']) == '') {
                 echo "<h2>Error! You need to type name.</h2>";
-            } else if ($profiles['name'] != $_POST['name'] && !checkProfileNameAvailable(sanitize_text_field($_POST['name']))) {
+            } else if ($profiles['name'] != $_POST['name'] && !rankme_checkProfileNameAvailable(sanitize_text_field($_POST['name']))) {
                 echo "<h2>Error! That name already exist.</h2>";
-            } else if ($message = checkInfoForNull(array_slice($settings, 0, 4))) {
+            } else if ($message = rankme_checkInfoForNull(array_slice($settings, 0, 4))) {
                 echo "<h2>$message</h2>";
-            } else if (!checkConnection(array_slice($settings, 1, 4))) {
+            } else if (!rankme_checkConnection(array_slice($settings, 1, 4))) {
                 echo "<h2>Error! Can not connect to the database</h2>";
             } else {
-                updateProfile($settings);
+                rankme_updateProfile($settings);
                 echo "<h3>Confirm! You updated profile!</h3>";
             }
         }
@@ -622,7 +622,7 @@
         <?php
     }
 
-    function checkInfoForNull($info) {
+    function rankme_checkInfoForNull($info) {
         foreach ($info as $key => $value) {
             if ($value == "") {
                 $key = sanitize_text_field($key);

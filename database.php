@@ -118,7 +118,7 @@
         }
     }
 
-    function createScoreboard() {
+    function rankme_createScoreboard() {
         global $wpdb;
         $result = $wpdb -> get_results("SELECT * FROM ". $wpdb -> prefix ."rankme_scoreboard");
         $arr = [];
@@ -159,7 +159,7 @@
         return $arr;
     }
 
-    function getServer($id) {
+    function rankme_getServer($id) {
         global $wpdb;
         $result = null;
         if ($id == null)
@@ -192,7 +192,7 @@
         return $arr;
     }
 
-    function getProfiles($id) {
+    function rankme_getProfiles($id) {
         global $wpdb;
         $result = null;
         if ($id == null)
@@ -287,17 +287,17 @@
         return $arr;
     }
 
-    function deleteDatabaseFromScoreboard($id) {
+    function rankme_deleteDatabaseFromScoreboard($id) {
         global $wpdb;
         $result = $wpdb -> get_results("DELETE FROM ". $wpdb -> prefix ."rankme_scoreboard WHERE id = $id");
     }
     
-    function deleteDatabaseFromProfiles($id) {
+    function rankme_deleteDatabaseFromProfiles($id) {
         global $wpdb;
         $result = $wpdb -> get_results("DELETE FROM ". $wpdb -> prefix ."rankme_profile WHERE id = $id");
     }
 
-    function addNewScoreboard($mysql, $settings) {
+    function rankme_addNewScoreboard($mysql, $settings) {
         global $wpdb;
         $mysql = "
         INSERT INTO ". $wpdb -> prefix ."rankme_scoreboard VALUES (
@@ -320,7 +320,7 @@
         $wpdb -> query($mysql);
     }
 
-    function addNewProfile($settings) {
+    function rankme_addNewProfile($settings) {
         global $wpdb;
         $mysql = "
         INSERT INTO ". $wpdb -> prefix ."rankme_profile VALUES (
@@ -332,7 +332,7 @@
         $wpdb -> query($mysql);
     }
 
-    function createProfilePage() {
+    function rankme_createProfilePage() {
         global $wpdb;
         $result = $wpdb -> get_results("SELECT * FROM ". $wpdb -> prefix ."rankme_profile");
         $mysql = [];
@@ -430,7 +430,7 @@
         $search = new RankmeSearch($mysql);
     }
 
-    function updateScoreboard($settings) {
+    function rankme_updateScoreboard($settings) {
         global $wpdb;
         $sql = "UPDATE ". $wpdb -> prefix ."rankme_scoreboard 
         SET host='$settings[host]',
@@ -451,7 +451,7 @@
         $wpdb -> query($sql);
     }
 
-    function updateProfile($settings) {
+    function rankme_updateProfile($settings) {
         global $wpdb;
         $sql = "UPDATE ". $wpdb -> prefix ."rankme_profile 
         SET host='$settings[host]',
@@ -524,13 +524,13 @@
         $wpdb -> query($sql);
     }
 
-    function checkProfileNameAvailable($name) {
+    function rankme_checkProfileNameAvailable($name) {
         global $wpdb;
         $wpdb -> get_results("SELECT * FROM ". $wpdb -> prefix ."rankme_profile WHERE name='$name';");
         return $wpdb -> num_rows == 0;
     }
 
-    function checkConnection($settings) {
+    function rankme_checkConnection($settings) {
         global $wpdb;
         $wpdb = new wpdb($settings['login'], $settings['password'], $settings['database'], $settings['host']);
 

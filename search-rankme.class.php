@@ -23,7 +23,7 @@
 
                     $mysql = new wpdb($value['login'], $value['password'], $value['database'], $value['host']);
                     $query = $mysql -> get_results("SELECT * FROM `rankme` WHERE steam = '$_GET[steam]';");
-                    $words = getSettingsWords();
+                    $words = rankme_getSettingsWords();
                     $settings = $value['settings'];
 
                     // echo "<pre>";
@@ -133,7 +133,7 @@
         }
     }
 
-    function getSettingsWords() {
+    function rankme_getSettingsWords() {
         return [
             "name" => ["name", "Name"],
             "steam" => ["steam", "SteamID"],

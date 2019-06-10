@@ -8,19 +8,19 @@
         }
 
         public function getHead() {
-            $WORDS = getWords();
+            $WORDS = rankme_getWords();
             return "<td>". $WORDS[$this -> name][0] ."</td>";
             // place, kd
         }
 
         public function getTableDash($row) {
-            $WORDS = getWords();
+            $WORDS = rankme_getWords();
             $word = $WORDS[$this -> name][1];
             return "<td>". sanitize_text_field($row -> $word) ."</td>";
         }
 
         public function getJson($row) {
-            $WORDS = getWords();
+            $WORDS = rankme_getWords();
             $word = $WORDS[$this -> name][1];
             return $row -> $word;
         }
@@ -30,7 +30,7 @@
         }
     }
 
-    function getWords() {
+    function rankme_getWords() {
         return [
             "name" => ["Name", "name"],
             "steam" => ["Steam", "steam"],

@@ -19,11 +19,11 @@
     add_action('wp_ajax_rankme', 'rankme_scoreboard_more');
     add_action('wp_ajax_nopriv_rankme', 'rankme_scoreboard_more');
 
-    createScoreboard();
-    createProfilePage();
+    rankme_createScoreboard();
+    rankme_createProfilePage();
 
     function rankme_scoreboard_more() {
-        $scoreboards = createScoreboard();
+        $scoreboards = rankme_createScoreboard();
         $scoreboards[$_GET['id']] -> getJson($_GET['start'], $_GET['count']);
         wp_die();
     }
