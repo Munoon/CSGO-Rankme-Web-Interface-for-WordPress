@@ -4,7 +4,30 @@
     let select = document.getElementById('rankme_select');
     let next = document.getElementById('rankme_next');
     let prev = document.getElementById('rankme_prev');
+    let loadingDom = document.getElementById('rankme_loading');
     let start = 0;
+    let isLoading = false;
+
+    function startLoading() {
+        isLoading = true;
+        loadingDom.textContent = "Loading";
+        setTimeout(function run() {
+            if (isLoading === true) {
+                let text = loadingDom.textContent;
+                if (text.includes("...")) {
+                    loadingDom.textContent = "Loading";
+                } else if (text.includes("..")) {
+                    loadingDom.textContent = "Loading...";
+                } else if (text.includes(".")) {
+                    loadingDom.textContent = "Loading..";
+                } else {
+                    loadingDom.textContent = "Loading.";
+                }
+
+                setTimeout(run, 500)
+            }
+        }, 500);
+    }
 
     function ajax(data) {
         jQuery.get(rankmeAjaxPhp.ajaxurl, data, function (response) {
@@ -74,6 +97,8 @@
                 tbody.appendChild(tr);
             }
             table.replaceChild(tbody, tableTbody);
+            isLoading = false;
+            loadingDom.textContent = "";
         });
     }
 
@@ -84,6 +109,7 @@
             start,
             count: select.value
         });
+        startLoading();
     });
 
     next.addEventListener('click', function(e) {
@@ -94,6 +120,7 @@
             start,
             count: select.value
         });
+        startLoading();
     });
 
     prev.addEventListener('click', function(e) {
@@ -105,5 +132,6 @@
             start,
             count: select.value
         });
+        startLoading();
     });
 })();

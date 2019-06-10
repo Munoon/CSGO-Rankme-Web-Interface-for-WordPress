@@ -531,7 +531,6 @@
     }
 
     function rankme_checkConnection($settings) {
-        global $wpdb;
         $wpdb = new wpdb($settings['login'], $settings['password'], $settings['database'], $settings['host']);
 
         if(!empty($wpdb->error)) {

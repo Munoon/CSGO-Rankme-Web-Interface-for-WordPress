@@ -75,6 +75,7 @@
                     </select>
                     <button id="rankme_prev">Previous</button>
                     <button id="rankme_next">Next</button>
+                    <span id="rankme_loading"></span>
                 </div>
 
             <?php
