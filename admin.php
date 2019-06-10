@@ -140,6 +140,8 @@
 
             if ($message = checkInfoForNull($mysql)) {
                 echo "<h2>$message</h2>";
+            } else if (!checkConnection($mysql)) {
+                echo "<h2>Error! Can not connect to the database</h2>";
             } else {
                 addNewScoreboard($mysql, $settings);
                 echo "<h3>Confirm! You created new scoreboard!</h3>";
@@ -272,6 +274,8 @@
                 echo "<h2>Error! That name already exist.</h2>";
             } else if ($message = checkInfoForNull(array_slice($settings, 0, 4))) {
                 echo "<h2>$message</h2>";
+            } else if (!checkConnection(array_slice($settings, 0, 4))) {
+                echo "<h2>Error! Can not connect to the database</h2>";
             } else {
                 addNewProfile($settings);
                 echo "<h3>Confirm! You created new profile!</h3>";
@@ -397,6 +401,8 @@
 
             if ($message = checkInfoForNull(array_slice($update, 0, 5))) {
                 echo "<h2>$message</h2>";
+            } else if (!checkConnection(array_slice($update, 1, 4))) {
+                echo "<h2>Error! Can not connect to the database</h2>";
             } else {
                 updateScoreboard($update);
                 echo "<h3>Confirm! You updated scoreboard!</h3>";
@@ -514,6 +520,8 @@
                 echo "<h2>Error! That name already exist.</h2>";
             } else if ($message = checkInfoForNull(array_slice($settings, 0, 4))) {
                 echo "<h2>$message</h2>";
+            } else if (!checkConnection(array_slice($settings, 1, 4))) {
+                echo "<h2>Error! Can not connect to the database</h2>";
             } else {
                 updateProfile($settings);
                 echo "<h3>Confirm! You updated profile!</h3>";

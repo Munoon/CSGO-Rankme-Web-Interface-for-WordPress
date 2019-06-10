@@ -530,4 +530,15 @@
         return $wpdb -> num_rows == 0;
     }
 
+    function checkConnection($settings) {
+        global $wpdb;
+        $wpdb = new wpdb($settings['login'], $settings['password'], $settings['database'], $settings['host']);
+
+        if(!empty($wpdb->error)) {
+            return false;
+        }
+
+        return true;
+    }
+
 ?>
