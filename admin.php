@@ -137,8 +137,13 @@
                     "button" => $_POST['button'] == 'on'
                 ]
             ];
-            addNewScoreboard($mysql, $settings);
-            echo "<h3>Confirm! You created new scoreboard!</h3>";
+
+            if ($message = checkInfoForNull($mysql)) {
+                echo "<h2>$message</h2>";
+            } else {
+                addNewScoreboard($mysql, $settings);
+                echo "<h3>Confirm! You created new scoreboard!</h3>";
+            }
         }
 
         ?>
@@ -263,7 +268,7 @@
 
             if (sanitize_text_field($_POST['name']) == '') {
                 echo "<h2>Error! You need to type name.</h2>";
-            } else if (!checkProfileNameAvalible(sanitize_text_field($_POST['name']))) {
+            } else if (!checkProfileNameAvailable(sanitize_text_field($_POST['name']))) {
                 echo "<h2>Error! That name already exist.</h2>";
             } else if ($message = checkInfoForNull(array_slice($settings, 0, 4))) {
                 echo "<h2>$message</h2>";
@@ -389,7 +394,13 @@
                 "kd" => $_POST['kd'] == 'on' ? true : false,
                 "button" => $_POST['button'] == 'on' ? true : false
             ];
-            updateScoreboard($update);
+
+            if ($message = checkInfoForNull(array_slice($update, 0, 5))) {
+                echo "<h2>$message</h2>";
+            } else {
+                updateScoreboard($update);
+                echo "<h3>Confirm! You updated scoreboard!</h3>";
+            }
         }
         $scoreboard = getServer($scoreboardID);
         ?>
@@ -499,7 +510,7 @@
             ];
             if (sanitize_text_field($_POST['name']) == '') {
                 echo "<h2>Error! You need to type name.</h2>";
-            } else if ($profiles['name'] != $_POST['name'] && !checkProfileNameAvalible(sanitize_text_field($_POST['name']))) {
+            } else if ($profiles['name'] != $_POST['name'] && !checkProfileNameAvailable(sanitize_text_field($_POST['name']))) {
                 echo "<h2>Error! That name already exist.</h2>";
             } else if ($message = checkInfoForNull(array_slice($settings, 0, 4))) {
                 echo "<h2>$message</h2>";
