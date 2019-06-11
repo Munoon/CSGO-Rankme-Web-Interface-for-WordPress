@@ -1,5 +1,7 @@
 <?php
 
+    if (!defined('ABSPATH')) exit;
+
     global $rankme_scoreboard_db_version;
     $rankme_scoreboard_db_version = 1.0;
 

@@ -4,6 +4,8 @@
     require "search-rankme.class.php";
     require "admin.php";
 
+    if (!defined('ABSPATH')) exit;
+
     /*
     Plugin Name: CSGO Rankme
     Plugin URI: https://github.com/Munoon/CSGO-Rankme-Web-Interface-for-WordPress

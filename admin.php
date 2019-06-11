@@ -2,6 +2,8 @@
 
     include "database.php";
 
+    if (!defined('ABSPATH')) exit;
+
     function rankme_add_pages() {
         add_menu_page('Rankme Settings', 'Rankme Settings', 8, __FILE__, 'rankme_toplevel_page');
         add_submenu_page(__FILE__, 'Add Scoreboard', 'Add Scoreboard', 8, 'sub-page', 'rankme_add_scoreboard_page');

@@ -3,6 +3,8 @@
     require "elements.class.php";
     include_once("csgo-rankme.php");
 
+    if (!defined('ABSPATH')) exit;
+
     class Rankme {
         private $mysql, $settings, $shortcode;
 
