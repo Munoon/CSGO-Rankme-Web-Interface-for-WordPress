@@ -3,7 +3,7 @@ This is plugin for WordPress that allow showing scoreboard and players profiles.
 
 ## Installing
 1) First of all you need install plugin [Rankme](https://forums.alliedmods.net/showthread.php?t=290063) on your csgo servers and set database.
-2) Download this plugin from GitHub.
+2) Download this plugin from GitHub (I recommend to use [second release](https://github.com/Munoon/CSGO-Rankme-Web-Interface-for-WordPress/releases/tag/1.1)).
 3) Open Add new plugin page in admin panel on your WordPress website.
 4) Click on "Upload plugin" button and choose this downloaded plugin.
 5) Open Installed plugins page and activate CSGO Rankme plugin.
