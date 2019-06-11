@@ -15,12 +15,15 @@
 
     register_activation_hook(__FILE__, 'rankme_createScoreboardTable');
 
+    add_action('plugins_loaded', 'rankme_init');
     add_action('admin_menu', 'rankme_add_pages');
     add_action('wp_ajax_rankme', 'rankme_scoreboard_more');
     add_action('wp_ajax_nopriv_rankme', 'rankme_scoreboard_more');
 
-    rankme_createScoreboard();
-    rankme_createProfilePage();
+    function rankme_init() {
+        rankme_createScoreboard();
+        rankme_createProfilePage();
+    }
 
     function rankme_scoreboard_more() {
         $scoreboards = rankme_createScoreboard();

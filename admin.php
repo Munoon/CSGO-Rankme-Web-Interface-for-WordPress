@@ -120,8 +120,8 @@
             $mysql = [
                 "host" => sanitize_text_field($_POST['host']),
                 "login" => sanitize_text_field($_POST['login']),
-                "password" => sanitize_text_field($_POST['password']),
-                "database" => sanitize_text_field($_POST['database'])
+                "database" => sanitize_text_field($_POST['database']),
+                "password" => sanitize_text_field($_POST['password'])
             ];
             $settings = [
                 "action" => sanitize_text_field($_POST['action']),
@@ -138,7 +138,7 @@
                 ]
             ];
 
-            if ($message = rankme_checkInfoForNull($mysql)) {
+            if ($message = rankme_checkInfoForNull(array_slice($mysql, 0, 3))) {
                 echo "<h2>$message</h2>";
             } else if (!rankme_checkConnection($mysql)) {
                 echo "<h2>Error! Can not connect to the database</h2>";
@@ -202,8 +202,8 @@
             $settings = [
                 "host" => sanitize_text_field($_POST['host']),
                 "login" => sanitize_text_field($_POST['login']),
-                "password" => sanitize_text_field($_POST['password']),
                 "database" => sanitize_text_field($_POST['database']),
+                "password" => sanitize_text_field($_POST['password']),
                 "name" => sanitize_text_field($_POST['name']),
                 sanitize_text_field($_POST['showName']) == 'on',
                 sanitize_text_field($_POST['steam']) == 'on',
@@ -272,7 +272,7 @@
                 echo "<h2>Error! You need to type name.</h2>";
             } else if (!rankme_checkProfileNameAvailable(sanitize_text_field($_POST['name']))) {
                 echo "<h2>Error! That name already exist.</h2>";
-            } else if ($message = rankme_checkInfoForNull(array_slice($settings, 0, 4))) {
+            } else if ($message = rankme_checkInfoForNull(array_slice($settings, 0, 3))) {
                 echo "<h2>$message</h2>";
             } else if (!rankme_checkConnection(array_slice($settings, 0, 4))) {
                 echo "<h2>Error! Can not connect to the database</h2>";
@@ -385,8 +385,8 @@
                 "id" => sanitize_text_field($scoreboardID),
                 "host" => sanitize_text_field($_POST['host']),
                 "login" => sanitize_text_field($_POST['login']),
-                "password" => sanitize_text_field($_POST['password']),
                 "database" => sanitize_text_field($_POST['database']),
+                "password" => sanitize_text_field($_POST['password']),
                 "action" => sanitize_text_field($_POST['action']),
                 "place" => $_POST['place'] == 'on' ? true : false,
                 "name" => $_POST['name'] == 'on' ? true : false,
@@ -399,7 +399,7 @@
                 "button" => $_POST['button'] == 'on' ? true : false
             ];
 
-            if ($message = rankme_checkInfoForNull(array_slice($update, 0, 5))) {
+            if ($message = rankme_checkInfoForNull(array_slice($update, 0, 4))) {
                 echo "<h2>$message</h2>";
             } else if (!rankme_checkConnection(array_slice($update, 1, 4))) {
                 echo "<h2>Error! Can not connect to the database</h2>";
@@ -449,8 +449,8 @@
                 "id" => sanitize_text_field($profileID),
                 "host" => sanitize_text_field($_POST['host']),
                 "login" => sanitize_text_field($_POST['login']),
-                "password" => sanitize_text_field($_POST['password']),
                 "database" => sanitize_text_field($_POST['database']),
+                "password" => sanitize_text_field($_POST['password']),
                 "name" => sanitize_text_field($_POST['name']),
                 "showName" => $_POST['showName'] == 'on' ? '1' : '0',
                 "steam" => $_POST['steam'] == 'on' ? '1' : '0',
@@ -518,7 +518,7 @@
                 echo "<h2>Error! You need to type name.</h2>";
             } else if ($profiles['name'] != $_POST['name'] && !rankme_checkProfileNameAvailable(sanitize_text_field($_POST['name']))) {
                 echo "<h2>Error! That name already exist.</h2>";
-            } else if ($message = rankme_checkInfoForNull(array_slice($settings, 0, 4))) {
+            } else if ($message = rankme_checkInfoForNull(array_slice($settings, 1, 3))) {
                 echo "<h2>$message</h2>";
             } else if (!rankme_checkConnection(array_slice($settings, 1, 4))) {
                 echo "<h2>Error! Can not connect to the database</h2>";
