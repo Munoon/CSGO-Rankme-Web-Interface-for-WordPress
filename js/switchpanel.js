@@ -2,7 +2,7 @@
 
 (function() {
     let div = document.getElementById('rankme_search');
-    let panel = document.getElementById('rankme_search__panel');
+    let panel = document.getElementById('rankme_search_panel');
     let lastElem = div.children[1];
     lastElem.hidden = false;
 

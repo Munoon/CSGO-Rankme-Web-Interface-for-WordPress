@@ -1,7 +1,5 @@
 <?php
 
-    include_once($_SERVER['DOCUMENT_ROOT'].'/wordpress/wp-config.php');
-
     global $rankme_scoreboard_db_version;
     $rankme_scoreboard_db_version = 1.0;
 

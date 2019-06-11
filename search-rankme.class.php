@@ -15,7 +15,7 @@
                 ?>
 
                     <div id="rankme_search">
-                    <div id="rankme_search__panel"></div>
+                    <div id="rankme_search_panel"></div>
                 
                 <?php 
                 foreach ($this -> mysql as $key => $value) {
@@ -26,10 +26,6 @@
                     $words = rankme_getSettingsWords();
                     $settings = $value['settings'];
 
-                    // echo "<pre>";
-                    // print_r($query);
-                    // echo "</pre>";
-                    
                     if (count($query) == 0) {
                         echo "<h1>Error. Player not found!</h1>";
                     } else {

@@ -24,7 +24,7 @@
                 'ajaxurl' => admin_url('admin-ajax.php'),
                 'id' => $this -> settings['id']
             ));
-            
+
             echo '<table id="rankme_table"><thead><tr>';
 
             foreach ($this -> settings['scoreboard'] as $key => $value) {
