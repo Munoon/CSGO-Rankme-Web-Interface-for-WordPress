@@ -16,7 +16,7 @@ Plugin allow show info from csgo plugin Rankme as scoreboard and as users profil
 3) Add scoreboards database.
 4) Insert short code for each database on you pages (you can take it on main rankme settings page).
 5) On one page could be only one scoreboard.
-6) If you want to add search page add databases in admin panel and insert on page shortcode [rankme_search].
+6) If you want to add search page - add search database in admin panel and inster on page shortcode [rankme_search].
 
 == Changelog ==
 
