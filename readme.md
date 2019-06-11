@@ -13,3 +13,4 @@ This is plugin for WordPress that allow showing scoreboard and players profiles.
 
 ## Reliases
 1) **[First release](https://github.com/Munoon/CSGO-Rankme-Web-Interface-for-WordPress/releases/tag/1.0)**
+2) **[Second release](https://github.com/Munoon/CSGO-Rankme-Web-Interface-for-WordPress/releases/tag/1.1)**
